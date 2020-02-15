@@ -172,15 +172,15 @@ class App extends Component{
                             </div>
                             <div className="legend-view">
                                     <div className="legend-item">
-                                        <span className="color" style={{background:"blue"}}/>
+                                        <span className="color" style={{background:"#1565C0"}}/>
                                         <span className="description">Swapping elements</span>
                                     </div>
                                     <div className="legend-item">
-                                        <span className="color" style={{background:"red"}}/>
+                                        <span className="color" style={{background:"#c62828"}}/>
                                         <span className="description">Comparing elements</span>
                                     </div>
                                     <div className="legend-item">
-                                        <span className="color" />
+                                        <span className="color" style={{background:"#008f3b"}}/>
                                         <span className="description">Array element</span>
                                     </div>
                             </div>

@@ -25,8 +25,8 @@ export default class D3VisioManager {
             .style("height", d=>scaleY(d)+"px")
             .style("width", (barWidth-barWidth*0.5)+"px")
             .style("fill", 
-                (d,i)=>this.metaData.compare.includes(i)? "red":
-                this.metaData.swap.includes(i)? "blue" : "green")
+                (d,i)=>this.metaData.compare.includes(i)? "#c62828":
+                this.metaData.swap.includes(i)? "#1565C0" : "#008f3b")
             .style("x", (d, i)=>(i*barMargin)+"px");
 
             gBar.append("text")
