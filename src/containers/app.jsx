@@ -14,6 +14,7 @@ class App extends Component{
             dataRange: "5-60",
             dataLength: 50,
             sortOrder: "DEC",
+            algorithm: "BUBBLE_SORT",
             stop: true
         }
     }
@@ -64,7 +65,52 @@ class App extends Component{
             this.timeoutId = setTimeout(() => {
                 this.bubbleSort(i, j, data, order);
             }, this.state.animationSpeed);
+        }else{
+            this.d3Manager.updateGraph(data);
         }
+    }
+
+    selectionSort = (i, j, m, data, order)=> {
+        if(i<data.length && !this.state.stop){
+            if(j<data.length){
+                if(this.compare(j, m, data, order) == 1){
+                    m = j;
+                }
+                j++;
+            }else{
+                if(m!==i){
+                    this.swap(i, m, data);
+                }
+                i++; j=i+1; m = i;
+            }
+            this.timeoutId = setTimeout(() => {
+                this.selectionSort(i, j, m, data, order);
+            }, this.state.animationSpeed);
+        }else{
+            this.d3Manager.updateGraph(data);
+        }
+    }
+
+    startBubbleSortSimulation = (dataSet, order)=>{
+        this.setState({
+            stop: false
+        }, ()=>{
+            let i=0, j=0;
+            this.timeoutId = setTimeout(() => {
+                this.bubbleSort(i, j, dataSet, order);
+            }, this.state.animationSpeed);
+        })
+    }
+
+    startSelectionSortSimulation = (dataSet, order)=>{
+        this.setState({
+            stop: false
+        }, ()=>{
+            let i=0, j=0, m=0;
+            this.timeoutId = setTimeout(() => {
+                this.selectionSort(i, j, m, dataSet, order);
+            }, this.state.animationSpeed);
+        })
     }
     
     startSimulation = (evt)=>{
@@ -76,14 +122,13 @@ class App extends Component{
         clearTimeout(this.timeoutId);
         this.d3Manager.updateGraph(this.state.dataSet)
 
-        this.setState({
-            stop: false
-        }, ()=>{
-            let i=0, j=0;
-            this.timeoutId = setTimeout(() => {
-                this.bubbleSort(i, j, dataSet, order);
-            }, this.state.animationSpeed);
-        })
+        switch(this.state.algorithm){
+            case "BUBBLE_SORT":
+                return this.startBubbleSortSimulation(dataSet, order)
+            case "SELECTION_SORT":
+                return this.startSelectionSortSimulation(dataSet, order)
+                        
+        }
     }
     stopSimulation = (evt)=> {
         evt && evt.preventDefault();
@@ -114,7 +159,7 @@ class App extends Component{
                         <h3>SortVisio</h3>
                     </div>
                     <div className="sub">
-                        <h3>Bubble Sort</h3>
+                        <h3>{this.state.algorithm.replace(/_/g, " ")}</h3>
                     </div>
                 </div>
 				<div className="app-body">
@@ -145,8 +190,9 @@ class App extends Component{
                             </div>
                             <div className="form-item">
                                 <span className="title">Algorithm</span>
-                                <select>
-                                    <option>Bubble Sort</option>
+                                <select onChange={(evt)=>this.setState({algorithm:evt.target.value})}>
+                                    <option value="BUBBLE_SORT">Bubble Sort</option>
+                                    <option value="SELECTION_SORT">Selection Sort</option>
                                 </select>
                             </div>
                             <div className="form-item">
@@ -171,18 +217,18 @@ class App extends Component{
                                 </div>
                             </div>
                             <div className="legend-view">
-                                    <div className="legend-item">
-                                        <span className="color" style={{background:"#1565C0"}}/>
-                                        <span className="description">Swapping elements</span>
-                                    </div>
-                                    <div className="legend-item">
-                                        <span className="color" style={{background:"#c62828"}}/>
-                                        <span className="description">Comparing elements</span>
-                                    </div>
-                                    <div className="legend-item">
-                                        <span className="color" style={{background:"#008f3b"}}/>
-                                        <span className="description">Array element</span>
-                                    </div>
+                                <div className="legend-item">
+                                    <span className="color" style={{background:"#1565C0"}}/>
+                                    <span className="description">Swapping elements</span>
+                                </div>
+                                <div className="legend-item">
+                                    <span className="color" style={{background:"#c62828"}}/>
+                                    <span className="description">Comparing elements</span>
+                                </div>
+                                <div className="legend-item">
+                                    <span className="color" style={{background:"#008f3b"}}/>
+                                    <span className="description">Array element</span>
+                                </div>
                             </div>
                         </div>
                         <div className="animation-controls">
