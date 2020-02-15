@@ -44,6 +44,9 @@ class App extends Component{
         if(data[i]<data[j] && order=="INC") return 1;
         return 0;
     }
+    compare2 = (i, j, data, order)=>{
+
+    }
 
     swap = (i, j, data)=>{
         this.d3Manager.updateGraph(data, {"swap":[i,j], "compare":[]})
@@ -64,6 +67,26 @@ class App extends Component{
             }
             this.timeoutId = setTimeout(() => {
                 this.bubbleSort(i, j, data, order);
+            }, this.state.animationSpeed);
+        }else{
+            this.d3Manager.updateGraph(data);
+        }
+    }
+
+    insertionSort = (i, j, data, order)=> {
+        if(i<data.length && !this.state.stop){
+            j = i-1;
+            if(j>=0 && this.compare(i, j, data, order) == 1){
+                if(this.compare(i, j, data, order) == 1){
+                    data[j+1] = data[j];
+                    this.d3Manager.updateGraph(data, {"swap":[j+1]})
+                }
+                j--;
+            }else{
+                data[j+1] = data[i]; i++;
+            }
+            this.timeoutId = setTimeout(() => {
+                this.insertionSort(i, j, data, order);
             }, this.state.animationSpeed);
         }else{
             this.d3Manager.updateGraph(data);
@@ -112,6 +135,17 @@ class App extends Component{
             }, this.state.animationSpeed);
         })
     }
+
+    startInsertionSortSimulation = (dataSet, order)=>{
+        this.setState({
+            stop: false
+        }, ()=>{
+            let i=0, j=0;
+            this.timeoutId = setTimeout(() => {
+                this.bubbleSort(i, j, dataSet, order);
+            }, this.state.animationSpeed);
+        })
+    }
     
     startSimulation = (evt)=>{
         evt && evt.preventDefault();
@@ -127,6 +161,8 @@ class App extends Component{
                 return this.startBubbleSortSimulation(dataSet, order)
             case "SELECTION_SORT":
                 return this.startSelectionSortSimulation(dataSet, order)
+            case "INSERTION_SORT":
+                return this.startInsertionSortSimulation(dataSet, order);
                         
         }
     }
@@ -193,6 +229,7 @@ class App extends Component{
                                 <select onChange={(evt)=>this.setState({algorithm:evt.target.value})}>
                                     <option value="BUBBLE_SORT">Bubble Sort</option>
                                     <option value="SELECTION_SORT">Selection Sort</option>
+                                    <option value="INSERTION_SORT">Insertion Sort</option>
                                 </select>
                             </div>
                             <div className="form-item">
