@@ -1,0 +1,173 @@
+@import "./base";
+
+$color-btn-start: #1565C0;
+$color-btn-stop: #AD1457;
+$color-btn-restart: #512DA8;
+
+@mixin button($color) {
+    background-color: $color;
+    
+    &:hover{
+        background-color: darken($color, 5);
+    }
+    &:active{
+        background-color: darken($color, 10);
+    }
+}
+
+.app-container {
+    width: 100%;
+    height: 100%;
+    font-size: 1.6rem;
+}
+
+.header {
+    width: 100%;
+    
+    .main{
+        height: 3.5em;
+        line-height: 3.5em;
+        padding: 0 2rem;
+        background-color: #212121;
+
+        h3 { color: whitesmoke; font-size: 25px; }
+    }
+
+    .sub {
+        height: 3em;
+        line-height: 3em;
+        background-color: #777;
+        text-align: center;
+    }
+}
+
+.app-body {
+    height: calc(100% - 6.5em);
+    display: flex;
+
+    .sidebar-controls{
+        height: 100%; width: 25.5rem;
+        background-color: #ccc;
+    }
+
+    .animation-arena{
+        display: inline-block;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .animation-area {
+            flex: 1;
+            display: flex;
+
+            .animation-view {
+                flex: 1;
+                padding: 3rem;
+            }
+
+            .legend-view {
+                width: 20rem;
+                padding-top: 5rem;
+
+                .legend-item {
+                    margin-bottom: 2rem;
+                    display: flex;
+
+                    .color {
+                        display: inline-block;
+                        width: 18px;
+                        height: 18px;
+                        background-color: green;
+                    }
+
+                    .description {
+                        display: inline-block;
+                        margin-left: 1rem;
+                        font-size: 1.3rem;
+                    }
+                }
+            }
+        }
+
+        .animation-controls{
+            height: 7rem;
+            line-height: 7rem;
+            background-color: #eee;
+            text-align: center;
+        }
+    }
+}
+
+.animation-component{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .header{
+        height: .5rem;
+        background-color: #212121;    
+    }
+
+    .content{
+        flex: 1;
+        border: 1px solid #212121;
+        position: relative;
+    }
+}
+
+.bar{
+    position: absolute;
+    bottom: 0;
+}
+
+.btn{
+    text-transform: uppercase;
+    text-decoration: none;
+    color: whitesmoke;
+    margin: 1rem;
+    transition: all .2s;
+    &:link, &:visited{
+        padding: 1rem 6rem;
+        border-radius: 3px;
+    }
+    
+}
+
+.btn-start {
+    @include button($color-btn-start);
+}
+
+.btn-stop {
+    @include button($color-btn-stop);
+}
+
+.btn-restart {
+    @include button($color-btn-restart);
+}
+
+.form {
+    padding: 20px 7px;
+
+    .form-item {
+        padding-bottom: 5px;
+        
+        &:not(:last-child) {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #aaa;
+        }
+
+        .title{
+            display: inline-block;
+            margin-bottom: 3px;
+        }
+
+        .form-control{
+            margin-bottom: 5px;
+            border: 1px solid #aaa;
+            padding: 5px;
+            border-radius: 5px;
+            width: 100%;
+        }
+    }
+}
